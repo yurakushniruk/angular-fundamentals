@@ -1,0 +1,1 @@
+{"ast":null,"code":"export * from './event-details.component';\nexport * from './event-route-activator.service';","map":null,"metadata":{},"sourceType":"module"}
