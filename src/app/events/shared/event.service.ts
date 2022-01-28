@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable, EventEmitter } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { catchError } from "rxjs/operators";
@@ -28,34 +28,19 @@ export class EventService {
     }
 
     saveEvent(event) {
-      event.id = 999
+      let options = { headers: new HttpHeaders({'Contnt-Type': 'application/json'})}
+      return this.http.post<IEvent>('/api/events', event, options)
+      .pipe(catchError(this.handleError<IEvent>('saveEvent')))
+      
+      /*event.id = 999
       event.sessions = []
       EVENTS.push(event)
+      */
     }
 
-    updateEvent(event) {
-      let index = EVENTS.findIndex(x => x.id = event.id)
-      EVENTS[index] = event
-    }
-
-    searchSessions(searchTerm: string) {
-      var term = searchTerm.toLocaleLowerCase()
-      var results: ISession[] = []
-
-      EVENTS.forEach(event => {
-        var matchingSessions = event.sessions.filter(session => session.name.toLocaleLowerCase().indexOf(term) > -1)
-        matchingSessions = matchingSessions.map((session:any) => {
-          session.eventId = event.id
-          return session
-        })
-        results = results.concat(matchingSessions)
-      })
-
-      var emmiter = new EventEmitter(true)
-      setTimeout(() => {
-        emmiter.emit(results)
-      }, 100)
-      return emmiter
+    searchSessions(searchTerm: string): Observable<ISession[]> {
+      return this.http.get<ISession[]>('/api/sessions/search?search=' + searchTerm)
+        .pipe(catchError(this.handleError<ISession[]>('searchEvents')))
     }
 
     private handleError<T> (operation = 'operation', result?: T) {
