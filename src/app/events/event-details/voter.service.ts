@@ -15,7 +15,7 @@ export class VoterService {
         const url = `/api/events/${eventId}/sessions/${session.id}/voters/${voterName}`
         
         this.http.delete(url)
-         .pipe(catchError(this.handleError('addVoter')))
+         .pipe(catchError(this.handleError('deleteVoter')))
         .subscribe()
     }
 
