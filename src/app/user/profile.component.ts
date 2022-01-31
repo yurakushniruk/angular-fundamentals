@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
-import { Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { Toastr, TOASTR_TOKEN } from '../common/toastr.service'
 import { AuthService } from './auth.service'
+import { IUser } from './user.model'
 
 @Component({
   templateUrl: './profile.component.html',
@@ -21,14 +22,19 @@ export class ProfileComponent implements OnInit {
   private lastName:FormControl
 
   constructor(private authService:AuthService, 
-    private router: Router,
+    private router: Router, private route:ActivatedRoute,
     @Inject(TOASTR_TOKEN) private toastr:Toastr) {
 
   }
 
   ngOnInit() {
-    this.firstName = new FormControl(this.authService.currentUser.firstName, [Validators.required, Validators.pattern('^[a-zA-Z].*')])
-    this.lastName = new FormControl(this.authService.currentUser.lastName, Validators.required)
+    let curUser: IUser
+    this.route.data.forEach((data) => {
+      curUser = <IUser>data['currentUser']
+    })
+
+    this.firstName = new FormControl(curUser.firstName, [Validators.required, Validators.pattern('^[a-zA-Z].*')])
+    this.lastName = new FormControl(curUser.lastName, Validators.required)
     this.profileForm = new FormGroup({
       firstName: this.firstName,
       lastName: this.lastName

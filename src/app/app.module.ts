@@ -33,6 +33,7 @@ import { appRoutes } from './routes';
 import { Error404Component } from './errors/404.component';
 import { AuthService } from './user/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UserResolver } from './user/user-resolver.service';
 
 let toastr:Toastr = window['toastr'];
 let jQuery = window['$'];
@@ -69,6 +70,7 @@ let jQuery = window['$'];
     //EventRouteActivator,
     EventResolver,
     EventsListResolver,
+    UserResolver,
     AuthService,
     VoterService,
     { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState }
