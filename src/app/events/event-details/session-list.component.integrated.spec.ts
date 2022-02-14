@@ -1,5 +1,6 @@
 import { DebugElement } from "@angular/core"
 import { ComponentFixture, TestBed } from "@angular/core/testing"
+import { By } from "@angular/platform-browser"
 import { AuthService } from "src/app/user/auth.service"
 import { SessionListComponent, VoterService } from "."
 import { DurationPipe } from ".."
@@ -54,6 +55,8 @@ describe('SessionListComponent', () => {
 
             //ASSERT
             expect(element.querySelector('[well-title]').textContent).toContain('Session 1')
+            //another option which do the same thing but with the debug element as a wrapper around the native element
+            expect(debugEl.query(By.css('[well-title]')).nativeElement.textContent).toContain('Session 1')
         })
     })
 })
