@@ -14,8 +14,8 @@ export class AuthService {
 
     loginUser(userName: string, password: string) {
         
-        let loginInfo = { username: userName, password: password } //the shape of this object depends on the server, the current one expects 'username' (all lowercase)
-        let options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' })}
+        const loginInfo = { username: userName, password: password } //the shape of this object depends on the server, the current one expects 'username' (all lowercase)
+        const options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' })}
         
         return this.http.post('/api/login', loginInfo, options)
             .pipe(tap(data => {
@@ -51,14 +51,14 @@ export class AuthService {
         this.currentUser.firstName = firstName
         this.currentUser.lastName = lastName
 
-        let options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' })}
+        const options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' })}
         return this.http.put(`/api/users/${this.currentUser.id}`, this.currentUser, options)
     }
 
     logout() {
         this.currentUser = undefined
         
-        let options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' })}
+        const options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' })}
         return this.http.post('/api/logout', {}, options)
     }
 }
